@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  test-runner-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -lc "npm install && npm test"
+    tty: true
+    stdin_open: true
+    profiles: ["dev"]
+
+  test-runner-ci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["npm", "test"]
+    profiles: ["ci"]
