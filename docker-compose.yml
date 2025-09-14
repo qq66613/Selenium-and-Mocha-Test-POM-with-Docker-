@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     working_dir: /app
     volumes:
-      - ./:/app
+      - .:/app
     command: sh -lc "npm install && npm test"
     tty: true
     stdin_open: true
