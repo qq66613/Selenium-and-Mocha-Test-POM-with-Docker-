@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "npx mocha test/*.js --timeout 30000"
+    "test": "node node_modules/mocha/bin/mocha.js test/*.js --timeout 30000"
   },
   "dependencies": {
     "selenium-webdriver": "^4.12.0",

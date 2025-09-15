@@ -30,9 +30,6 @@ ENV PATH="/usr/local/bin:${PATH}"
 COPY package*.json ./
 RUN npm install
 
-# Fix permission untuk mocha binary (jaga-jaga)
-RUN chmod +x node_modules/.bin/* || true \
- && chmod +x node_modules/mocha/bin/*.js || true
 
 # Copy project files (pages + test)
 COPY pages/ pages/
