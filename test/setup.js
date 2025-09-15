@@ -22,6 +22,7 @@ export async function initDriver() {
     driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
+      .setChromeService(service)
       .build();
   }
   return driver;
