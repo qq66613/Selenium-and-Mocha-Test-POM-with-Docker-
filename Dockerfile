@@ -1,11 +1,8 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
-# Make node_modules directory (useful when mounting volume)
-RUN mkdir -p /app/node_modules
-
-# Install Chrome dependencies + tools
+# Install dependencies & Google Chrome
 RUN apt-get update && apt-get install -y \
     wget gnupg unzip curl ca-certificates \
     fonts-liberation libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0 \
@@ -14,7 +11,7 @@ RUN apt-get update && apt-get install -y \
   && apt-get update && apt-get install -y google-chrome-stable \
   && rm -rf /var/lib/apt/lists/*
 
-# Install ChromeDriver (chrome-for-testing)
+# Install ChromeDriver (match with Chrome version)
 RUN set -eux; \
     DRIVER_VERSION="$(curl -fsSL https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE)"; \
     wget -q -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${DRIVER_VERSION}/linux64/chromedriver-linux64.zip"; \
@@ -23,18 +20,16 @@ RUN set -eux; \
     chmod +x /usr/local/bin/chromedriver; \
     rm -rf /tmp/*
 
-#memastikan chromedriver (dan tool lain di /usr/local/bin) bisa dipanggil cukup dengan nama perintahnya aja, tanpa path lengkap.    
-ENV PATH="/usr/local/bin:${PATH}" 
+# Tambah path Chrome & Chromedriver
+ENV PATH="/usr/local/bin:${PATH}" \
+    CHROME_BIN="/usr/bin/google-chrome" \
+    CHROMEDRIVER_PATH="/usr/local/bin/chromedriver"
 
-# Copy package files and install Node deps
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-
-# Copy project files (pages + test)
-COPY pages/ pages/
-COPY test/ test/
-# copy other files if needed (optional)
+# Copy project files
 COPY . .
 
 # Default command runs tests
