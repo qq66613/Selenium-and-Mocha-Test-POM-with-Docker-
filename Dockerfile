@@ -28,7 +28,11 @@ ENV PATH="/usr/local/bin:${PATH}"
 
 # Copy package files and install Node deps
 COPY package*.json ./
-RUN npm install --no-audit --no-fund
+RUN npm install
+
+# Fix permission untuk mocha binary (jaga-jaga)
+RUN chmod +x node_modules/.bin/* || true \
+ && chmod +x node_modules/mocha/bin/*.js || true
 
 # Copy project files (pages + test)
 COPY pages/ pages/
