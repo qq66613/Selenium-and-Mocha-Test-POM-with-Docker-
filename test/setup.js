@@ -14,6 +14,11 @@ export async function initDriver() {
       .addArguments("--remote-debugging-port=9222")
       .addArguments(`--user-data-dir=/tmp/chrome-profile-${Date.now()}`);
 
+
+    const service = new chrome.ServiceBuilder(
+      process.env.CHROMEDRIVER_PATH || "/usr/local/bin/chromedriver"
+    );
+    
     driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
