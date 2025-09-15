@@ -1,6 +1,6 @@
 // test/setup.js
 import { Builder } from "selenium-webdriver";
-import { Options } from "selenium-webdriver/chrome.js";
+import { Options , ServiceBuilder } from "selenium-webdriver/chrome.js";
 
 let driver;
 
@@ -15,10 +15,10 @@ export async function initDriver() {
       .addArguments(`--user-data-dir=/tmp/chrome-profile-${Date.now()}`);
 
 
-    const service = new chrome.ServiceBuilder(
+    const service = new ServiceBuilder(
       process.env.CHROMEDRIVER_PATH || "/usr/local/bin/chromedriver"
     );
-    
+
     driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
